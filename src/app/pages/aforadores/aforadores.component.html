@@ -1,0 +1,43 @@
+<p class="text-center" *ngIf="loading">Aforadores...</p>
+<div class="container" *ngIf="!loading">
+  <div class="table-responsive text-nowrap">
+    <table class="table ypf">
+      <colgroup>
+        <col>
+        <col style="width: 80px">
+        <col style="width: 100px">
+        <col style="width: 150px">
+        <col style="width: 100px">
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">Aforador</th>
+          <th scope="col">Articulo</th>
+          <th scope="col">Inicial</th>
+          <th scope="col">Final</th>
+          <th scope="col">Despachado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of aforadores">
+          <td>{{ a.nombre }}</td>
+          <td>{{ a.articulo }}</td>
+          <td class="text-right">{{ a.inicial  | number:'.2-2' }}</td>
+          <td><input [disabled]="!enabled" type="number" class="form-control form-control-sm cantidad"
+              [(ngModel)]="a.final" [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
+          <td class="text-right">{{ (a.final - a.inicial) | number:'.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-light" role="alert" *ngIf="aforadores.length == 0 && !enabled">
+    No se movieron los aforadores en esta caja.
+  </div>
+
+  <div class="row">
+    <div class="col text-right mt-2">
+      <button type="button" class="btn btn-outline-success" (click)="onSubmit()"
+        [disabled]="!control()">Siguiente</button>
+    </div>
+  </div>
+</div>

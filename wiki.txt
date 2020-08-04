@@ -1,0 +1,51 @@
+
+Remitos:     Que hacemos con los remitos. Hay remitos pendientes y afectados?
+YPF en ruta: que hacemos?
+Tarjetas:    que hacemos?
+
+
+Flujo del programa:
+
+    1) Seleccion del Turno
+        _ Usuario
+        _ Cierre Cio
+        _ Playeros
+        
+        (Submit)
+            Se crea el cierre con status = 0
+
+    2) Arqueo
+        _ Se controla que exista el cierre con status = 0.
+        _ Si no, retorna a la seleccion del turno.
+        _ Se piden datos del efectivo y demas comprobantes.
+
+        (Submit)
+            Se guarda el registro del arqueo.
+            Se updatea el cierre con status = 1
+
+    3) Planilla control articulos vendidos en el turno
+        _ Se controla que exista el cierre con status = 1.
+        _ Si no, retorna a la seleccion del turno.
+        _ Se piden los iniciales, reposicion y final de cada articulos
+
+        (Submit)
+            Se guarda los registros de cada articulo.
+            Se updatea el cierre con status = 2
+
+    4) Planilla control de aforadores que no pertenecen al Cio.
+        _ Se controla que exista el cierre con status = 2.
+        _ Si no, retorna a la seleccion del turno. 
+        _ Se piden los finales de cada aforador.
+
+        (Submit)
+            Se guardan los registros de cada aforador.
+            Se updatea el cierre con status = 3
+    
+    5) Pendientes de facturar
+        _ Se controla que exista el cierre con status = 3.
+        _ Si no, retorna a la seleccion del turno. 
+        _ Se piden los datos del Cio.
+        _ Se piden los datos de la planilla de articulos.
+        _ Se piden los datos de la planilla de aforadores.
+        _ Se piden los datos de lo vendido en esa caja.
+        _ Con estas ultimas 4 peticiones se calcula lo pendiente de facturar.

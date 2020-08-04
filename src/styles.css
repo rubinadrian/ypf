@@ -1,1 +1,130 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+    min-height: 100%;
+}
+
+@media print {
+    .btn {
+      display: none !important;
+    }
+  }
+
+.container {
+    margin-bottom: 30px;
+}
+
+table.ypf td input {
+    border: 0px;
+}
+
+.move {
+    cursor: move;
+}
+
+table tfoot th {
+    text-align: right;
+    background-color: #666;
+    color:white;
+}
+
+
+table.ypf td {
+    padding: 5px;
+    vertical-align : middle;
+}
+
+table.ypf tr:hover {
+    cursor: pointer;
+    background-color: #f1f1f1;
+}
+
+table.ypf td:hover {
+    cursor: pointer;
+} 
+
+table.ypf td span{
+    padding: 5px;
+}
+
+table.ypf input:read-only {
+    background-color: white;
+  }
+
+  table.ypf td input {
+    text-align: right;
+}
+
+table.ypf input:hover
+table.ypf input:active, 
+table.ypf input:focus, 
+table.ypf textarea:active,
+table.ypf textarea:hover,
+table.ypf textarea:focus, 
+table.ypf button:focus,
+table.ypf button:active,
+table.ypf button:hover
+{
+    outline-style:none;
+    box-shadow:none;
+    border-color:transparent;
+}
+
+table.ypf .cantidad {
+    background-color: cornsilk;
+}
+
+.btn-primary {
+    background-color: #003b7c;
+}
+
+.btn-outline-primary {
+    border-color:  #003b7c;
+    color: #003b7c;
+}
+
+.btn-outline-primary:hover{
+    background-color:  #003b7c;
+    border-color:  #003b7c;
+}
+
+table.apple {
+    border-radius: 8px;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+table.apple thead tr {
+    background-color: #353148;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: unset;
+}
+
+table.apple tbody td {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    padding: 5px 10px;
+}
+
+
+.bg-title-green{
+    background-color: #28a745;
+    padding: 10px;
+    color: white;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+table.table-comprobantes tbody tr td {
+    font-size: 12px;
+    line-height: 24px;
+}
+
+.th-right {
+    text-align: right;
+    text-indent: 20px;
+    direction:rtl;
+}

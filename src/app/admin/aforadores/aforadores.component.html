@@ -1,0 +1,48 @@
+<div class="container" *ngIf="!loading">
+
+
+  <form [formGroup]="ngForm" (ngSubmit)="onSubmit()" class="form-inline" novalidate>
+    
+    <label class="sr-only">Nombre Aforador</label>
+    <input type="text" formControlName="nombre" class="form-control form-control-sm mb-2 mr-sm-2" placeholder="Nombre Aforador">
+
+    <label class="sr-only">Articulo</label>
+    <input type="text" formControlName="articulo" class="form-control form-control-sm mb-2 mr-sm-2" placeholder="Articulo">
+
+    <label class="sr-only">Inicial</label>
+    <input type="number" formControlName="inicial" class="form-control form-control-sm mb-2 mr-sm-2" placeholder="Inicial">
+
+
+
+    <button type="submit" class="btn btn-sm btn-success mb-2">Nuevo</button>
+  </form>
+
+  <table class="table table-sm table-light table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Articulo</th>
+            <th>Inicial</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)" cdkDragLockAxis="y">
+          <tr *ngFor="let afo of aforadores;let idx=index" cdkDrag cdkDragLockAxis="y">
+            <td cdkDragHandle class="move text-center"><i class="fas fa-arrows-alt-v"></i></td>
+            <td>{{ afo.nombre }}</td>
+            <td>{{ afo.articulo }}</td>
+            <td (click)="showInput[afo.id] = true">
+                <ng-container *ngIf="!showInput[afo.id]">{{ afo.inicial }}</ng-container>
+                <ng-container *ngIf="showInput[afo.id]">
+                  <input class="inicial" (blur)="changeInit(afo)" [(ngModel)]="afo.inicial">
+                </ng-container>
+              </td>
+            <th class="text-right">
+              <a class="text-danger mr-1" (click)="del(afo.id, idx)"><i class="fa fa-times"></i></a>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+
+</div>

@@ -1,0 +1,196 @@
+<p class="text-center" *ngIf="loading">Pendientes...</p>
+
+<div *ngIf="loadingCio" style="text-align: center; padding: 10px; height: 40px; margin-bottom: 40px;">
+  OBTENIENDO DATOS DEL SISTEMA CIO
+  <div style="text-align: center;">
+    <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow" style="width: 1rem; height: 1rem;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" *ngIf="!loading && !loadingCio">
+
+  <h3 class="bg-title-green">Facturado En Turno</h3>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Articulo</th>
+        <th>Denominacion</th>
+        <th style="text-align: right;">Cantidad</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let art of facturados_clon">
+        <td>{{ art.articulo}}</td>
+        <td>{{ art.denominacion}}</td>
+        <td style="text-align: right;">{{ (art.cantidad * 1).toFixed(2) }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+
+  <h3 class="mt-5 bg-title-green">Combustibles Pendientes</h3>
+  <div class="alert alert-light" role="alert" *ngIf="!(combCioPendientes.length || combAfoPendientes.length)">
+    No hay combustibles pendientes de facturar.
+  </div>
+  <div class="table-responsive text-nowrap">
+    <table class="table table-sm" *ngIf="combCioPendientes.length || combAfoPendientes.length">
+      <thead>
+        <tr>
+          <th>Articulo</th>
+          <th>Denominacion</th>
+          <th style="text-align: right;">Despachados</th>
+          <th style="text-align: right;">Facturado</th>
+          <th style="text-align: right;">YER</th>
+          <th style="text-align: right;">Pendiente</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let art of combCioPendientes">
+          <td>{{ art.articulo}}</td>
+          <td>{{ art.denominacion }}</td>
+          <td style="text-align: right;">{{ art.cio }}</td>
+          <td style="text-align: right;">{{ art.facturado }}</td>
+          <td style="text-align: right;">{{ art.yer }}</td>
+          <td style="text-align: right;">{{ art.cantidad}}</td>
+        </tr>
+        <tr *ngFor="let art of combAfoPendientes">
+          <td>{{ art.articulo}}</td>
+          <td>{{ art.denominacion}}</td>
+          <td style="text-align: right;">{{ art.despachados }}</td>
+          <td style="text-align: right;">{{ art.facturado }}</td>
+          <td></td>
+          <td style="text-align: right;">{{ art.cantidad}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt-5 bg-title-green">Incidencias</h3>
+  <div class="alert alert-light" role="alert" *ngIf="!incidencias.length">
+    No hay incidencias.
+  </div>
+  <div class="table-responsive text-nowrap">
+    <table class="table table-sm" *ngIf="incidencias.length">
+      <thead>
+        <tr>
+          <th>Articulo</th>
+          <th>Denominacion</th>
+          <th style="text-align: right;">Cantidad</th>
+          <th style="width: 80px;"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let art of incidencias;let idx=index">
+          <td>{{ art.articulo }}</td>
+          <td>{{ art.denominacion }}</td>
+          <td style="text-align: right;">{{ art.cantidad }}</td>
+          <td style="width: 80px;">
+              <a class="text-danger mr-1" (click)="delIncidencia(idx)"><i class="fa fa-times"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row" *ngIf="!cajacerrada">
+    <div class="col mt-2">
+      <button class="btn btn-sm btn-outline-info" (click)="addIncidencia()"><i class="fa fa-plus"></i>
+        INCIDENCIA</button>
+    </div>
+  </div>
+
+  <h3 class="mt-5 bg-title-green">Articulos Pendientes</h3>
+  <div class="alert alert-light" role="alert" *ngIf="!articulosPendientes.length">
+    No hay articulos pendientes de facturar.
+  </div>
+  <div class="table-responsive text-nowrap">
+    <table class="table table-sm" *ngIf="articulosPendientes.length">
+      <thead>
+        <tr>
+          <th>Articulo</th>
+          <th>Denominacion</th>
+          <th style="text-align: right;">Incial</th>
+          <th style="text-align: right;">Yer</th>
+          <th style="text-align: right;">Repo</th>
+          <th style="text-align: right;">Final</th>
+          <th style="text-align: right;">Facturado</th>
+          <th style="text-align: right;">Pendiente</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let art of articulosPendientes">
+          <td>{{ art.articulo}}</td>
+          <td>{{ art.denominacion}}</td>
+          <td style="text-align: right;">{{ art.inicial}}</td>
+          <td style="text-align: right;">{{ art.yer}}</td>
+          <td style="text-align: right;">{{ art.reposicion}}</td>
+          <td style="text-align: right;">{{ art.final}}</td>
+          <td style="text-align: right;">{{ art.facturado }}</td>
+          <td style="text-align: right;">{{ (art.cantidad * 1).toFixed(2) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col text-right mt-2">
+      <button type="button" class="btn btn-outline-primary mr-2" (click)="refresh()">Refrescar (F5)</button>
+      <button type="button" class="btn btn-outline-success" (click)="onSubmit()"
+        *ngIf="!hayPendientes">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Incidencia-->
+<div class="modal fade" id="modal_incidencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Incidencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal_body">
+        <form [formGroup]="formIncidencia">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Art&iacute;culo: </label>
+            <div class="col-sm-10">
+              <select class="form-control form-control-sm" formControlName="articulo" required>
+                  <option value="" selected></option>
+                <option *ngFor="let art of combCioPendientes">{{art.articulo}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Litros: </label>
+            <div class="col-sm-10">
+              <div class="form-group">
+                <input type="number" class="form-control form-control-sm" formControlName="cantidad" required>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary" (click)="saveIncidencia()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

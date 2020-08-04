@@ -1,0 +1,84 @@
+<div class="container" *ngIf="!loading">
+  <form (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-lg-4 col-sm-6">
+        <div class="form-group">
+          <label for="month">Playero</label>
+          <select [(ngModel)]="playero1" class="custom-select custom-select-sm" name="playero1">
+            <option [value]="null" selected="selected"> - </option>
+            <option [value]="p.id" *ngFor="let p of playeros">{{ p.nombre }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="month">Playero</label>
+          <select [(ngModel)]="playero2" class="custom-select custom-select-sm" name="playero2">
+            <option [value]="null" selected="selected"> - </option>
+            <option [value]="p.id" *ngFor="let p of playeros">{{ p.nombre }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="month">Playero</label>
+          <select [(ngModel)]="playero3" class="custom-select custom-select-sm" name="playero3">
+            <option [ngValue]="null" selected="selected"> - </option>
+            <option [value]="p.id" *ngFor="let p of playeros">{{ p.nombre }}</option>
+          </select>
+        </div>
+
+      </div>
+      <div class="col-lg-4 col-sm-6">
+
+        <div class="form-group">
+          <label for="month">Turno</label>
+          <select [(ngModel)]="turno" class="custom-select custom-select-sm" name="turno">
+            <option value="" selected="selected"></option>
+            <option [value]="t" *ngFor="let t of turnos">{{ t }}</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="month">Mes</label>
+              <select [(ngModel)]="month" class="custom-select custom-select-sm" name="month" (change)="getPeriods()">
+                <option [value]="i" *ngFor="let p of [].constructor(12); let i=index">{{ ('00' + (i+1)).slice(-2) }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="month">Año</label>
+              <select [(ngModel)]="year" class="custom-select custom-select-sm" name="year" (change)="getPeriods()">
+                <option [value]="y" *ngFor="let y of years">{{ y }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <div class="spinner-border spinner-border-sm text-primary mr-2" role="status" *ngIf="loadPeriods">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <label for="month">Cierres</label>
+
+          <select [(ngModel)]="period" class="custom-select custom-select-sm" name="period" [disabled]="loadPeriods">
+            <option [value]="p.key" *ngFor="let p of periods">{{ p.value }}</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col text-right mt-2">
+            <button type="submit" class="btn btn-success" [disabled]="!turno||!period">Siguiente</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+  </form>
+</div>

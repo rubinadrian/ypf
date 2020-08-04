@@ -1,0 +1,29 @@
+<div class="container">
+        <table class="table table-sm table-light table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Periodo</th>
+              <th>Usuario</th>
+              <th>Status</th>
+              <th title="playero">P1</th>
+              <th title="playero">P2</th>
+              <th title="playero">P3</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="pointer" *ngFor="let cierre of cierres;let idx=index" (click)="openCierre(cierre)" routerLinkActive="router-link-active" >
+              <td>{{ cierre.period | period }}</td>
+              <td>{{ cierre.usuario }}</td>
+              <td>{{ cierre.status | status }}</td>
+              <td>{{ showNamePlayero(cierre.playero1) }}</td>
+              <td>{{ showNamePlayero(cierre.playero2) }}</td>
+              <td>{{ showNamePlayero(cierre.playero3) }}</td>
+              <th class="text-right">
+                <a class="text-danger mr-1" (click)="del(cierre, $event)"><i class="fa fa-times"></i></a>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+</div>
+      

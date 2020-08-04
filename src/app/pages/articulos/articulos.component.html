@@ -1,0 +1,53 @@
+<p class="text-center" *ngIf="loading">Articulos...</p>
+<div class="container" *ngIf="!loading">
+    <div class="table-responsive text-nowrap">
+  <table class="table ypf">
+    <colgroup>
+      <col>
+      <col>
+      <col style="width: 80px">
+      <col style="width: 80px">
+      <col style="width: 80px">
+      <col style="width: 80px">
+      <col style="width: 80px">
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">Codigo</th>
+        <th scope="col">Denominacion</th>
+        <th scope="col">Inicial</th>
+        <th scope="col">YER</th>
+        <th scope="col">Repo</th>
+        <th scope="col">Final</th>
+        <th scope="col">Venta</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="articulos">
+      <tr *ngFor="let a of articulos | orderBy">
+        <td>{{ a.codigo }}</td>
+        <td>{{ a.denominacion }}</td>
+        <td>{{ a.inicial }}</td>
+        <td>{{ a.yer }}</td>
+        <td><input [disabled]="!enabled" type="text" class="form-control form-control-sm cantidad" [(ngModel)]="a.reposicion"
+            [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
+        <td><input [disabled]="!enabled" type="text" class="form-control form-control-sm cantidad" [(ngModel)]="a.final"
+            [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
+        <td><input [disabled]="!enabled" type="text" class="form-control form-control-sm"
+            [value]="+a.inicial + +a.reposicion - +a.final -a.yer" tabIndex="-1" readonly></td>
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  <div class="alert alert-light" role="alert" *ngIf="articulos.length == 0 && !enabled">
+      No se vendieron articulos en esta caja
+    </div>
+
+
+  <div class="row">
+    <div class="col text-right mt-2">
+      <button type="button" class="btn btn-outline-success" (click)="onSubmit()" [disabled]="!control()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+

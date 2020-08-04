@@ -1,0 +1,48 @@
+<div class="container" *ngIf="!loading">
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="ngForm" class="form-inline" novalidate>
+    <label class="sr-only">Codigo</label>
+    <input type="text" formControlName="codigo" class="form-control form-control-sm mb-2 mr-sm-2" placeholder="Codigo">
+
+    <label class="sr-only">Denominacion</label>
+    <div class="input-group mb-2 mr-sm-2">
+      <input type="text" formControlName="denominacion" class="form-control form-control-sm" placeholder="Denominacion">
+    </div>
+
+    <label class="sr-only">Inicial</label>
+    <div class="input-group mb-2 mr-sm-2">
+      <input type="number" formControlName="inicial" class="form-control form-control-sm" placeholder="Inicial">
+    </div>
+
+    <button type="submit" class="btn btn-sm btn-success mb-2" [disabled]="!ngForm.valid">Nuevo</button>
+  </form>
+
+  <table class="table table-sm table-light table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th></th>
+        <th>Codigo</th>
+        <th>Denominacion</th>
+        <th>Inicial</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody cdkDropList (cdkDropListDropped)="drop($event)" cdkDragLockAxis="y">
+      <tr *ngFor="let art of articulos;let idx=index" cdkDrag cdkDragLockAxis="y">
+        <td cdkDragHandle class="move text-center "><i class="fas fa-arrows-alt-v"></i></td>
+        <td>{{ art.codigo }}</td>
+        <td>{{ art.denominacion }}</td>
+        <td (click)="showInput[art.id] = true">
+          <ng-container *ngIf="!showInput[art.id]">{{ art.inicial }}</ng-container>
+          <ng-container *ngIf="showInput[art.id]">
+            <input class="inicial" (blur)="changeInit(art)" [(ngModel)]="art.inicial">
+          </ng-container>
+        </td>
+        <th class="text-right">
+          <a class="text-danger mr-1" (click)="del(art.id, idx)"><i class="fa fa-times"></i></a>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

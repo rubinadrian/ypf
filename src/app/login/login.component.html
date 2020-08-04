@@ -1,0 +1,21 @@
+<div class="container">
+  
+  <div class="cont-wrapper row justify-content-center mt-5 m-1 pb-5 border rounded-lg">
+    <div class="wrapper-header mb-5"></div>
+    <div class="wrapper col-sm-8 col-md-6 col-lg-4 rounded-lg m-1 border p-2">
+      <span>Login</span>
+      <hr>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="form-group">
+          <input class="form-control" type="text" formControlName="username" placeholder="Usuario">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="password" formControlName="password" placeholder="Password">
+        </div>
+        <div>
+          <button class="btn btn-success"type="submit" [disabled]="loginForm.status==='INVALID'">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+.container {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.bg-ypf {
+    background-color: #003b7c;
+}
+
+.navbar-brand {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.navbar-text {
+    font-size: 12px;
+}
+
+
+.nav-item:hover>a {
+    color: #075394;
+    background-color: rgba(37, 37, 212, 0.171);
+    animation-name: animation_move;
+    animation-duration: 0.3s;
+}
+
+@keyframes animation_move {
+    from { transform: scale(1,0.2); }
+    to { transform: scale(1,1); }
+  }

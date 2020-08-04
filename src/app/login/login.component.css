@@ -1,0 +1,17 @@
+.cont-wrapper {
+  background-color:  #003b7c;
+  border: 2px solid #000;
+}
+
+.wrapper {
+  padding: 0px;
+  background-color:white;
+}
+
+.wrapper-header {
+  height: 200px;
+  width: 100%;
+  background-image: url(../../assets/images/estacion.jpg);
+  background-size: cover;
+  background-position: center center;
+}

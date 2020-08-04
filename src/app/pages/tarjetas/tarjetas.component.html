@@ -1,0 +1,86 @@
+<p class="text-center" *ngIf="loading">Tarjetas...</p>
+<div class="container" *ngIf="!loading">
+  <h3>Tarjetas</h3>
+  <hr>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="alert alert-light" role="alert" *ngIf="totales_tarjetas.length == 0">
+        No se realizaron tarjetas en esta caja.
+      </div>
+      <table class="table table-striped table-sm apple" *ngIf="totales_tarjetas.length">
+        <thead>
+          <tr>
+            <th>Tarjeta</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of totales_tarjetas">
+            <td>{{ t.tarjnombre }} ({{t.cantidad}})</td>
+            <td class="text-right">{{ t.total | number:'.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="row mt-3" *ngIf="comprobantes.length">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label for="filtro">Filtro:</label>
+        <input class="form-control form-control-sm" [(ngModel)]="filtro_text" name="filtro_text">
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="table-responsive text-nowrap">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Caja</th>
+              <th>Tarjeta</th>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Nro</th>
+              <th>Nombre</th>
+              <th>CUIT</th>
+              <th>CIVA</th>
+              <th>Importe</th>
+            </tr>
+          </thead>
+          <tbody #tbody>
+            <tr *ngFor="let c of comprobantes | filterBy: filtro | filterByText: filtro_text">
+              <td>{{ c.nrocaja }}</td>
+              <td>{{ c.tarjnombre }}</td>
+              <td>{{ c.fechaorigen | showFechaBit }}</td>
+              <td>{{ c.tipocomp }}</td>
+              <td>{{ c.nrocomprobante }}</td>
+              <td>{{ c.nombre }}</td>
+              <td>{{ c.cuit }}</td>
+              <td>{{ c.civa }}</td> 
+              <td *ngIf="!filtro || filtro == 'creditos'" class="text-right">{{ (c.totalcom * (c.debcre==2?-1:1)) | number:'.2-2' }}</td>
+              <td *ngIf="filtro && filtro != 'tarjetas' && filtro != 'creditos'" class="text-right">{{ (c.restotarj * (c.debcre==2?-1:1)) | number:'.2-2' }}</td>
+              <td *ngIf="filtro == 'tarjetas'" class="text-right">{{ (c.imptarj * (c.debcre==2?-1:1)) | number:'.2-2' }}</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="8">Total: </th>
+              <th class="text-right">{{ _comp.totalComp(comprobantes | filterBy: filtro | filterByText: filtro_text, filtro) | number:'.2-2' }}</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+        <div class="col text-right mt-2">
+          <button type="button" class="btn btn-outline-success" (click)="onSubmit()">Siguiente</button>
+        </div>
+      </div>
+
+
+</div>
