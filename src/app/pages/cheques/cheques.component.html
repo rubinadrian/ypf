@@ -1,9 +1,10 @@
-<p class="text-center" *ngIf="loading">Arqueo...</p>
+<p class="text-center" *ngIf="loading">Loading...</p>
 <div class="container" *ngIf="!loading">
 <div class="row">
   <div class="col-12">
     <div class="text-right p-2">
-      <button class="btn btn-sm btn-success btn right" data-toggle="modal" data-target="#ModalFormCheque"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      <button class="btn btn-sm btn-outline-success right" style="min-width: 100px;" data-toggle="modal" data-target="#ModalFormCheque">
+        <i class="fa fa-plus" aria-hidden="true"></i> Cheque</button>
     </div>
   </div>
 </div>
@@ -16,31 +17,34 @@
         <th scope="col">Portador</th>
         <th scope="col">Telefono</th>
         <th scope="col">Importe</th>
-        <th></th>
+        <th style="width: 50px;"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let c of cheques">
-        <td>{{ c.banco }}    </td>
-        <td>{{ c.fecha | date:'dd/MM/yyyy' }}    </td>
-        <td>{{ c.numero }}   </td>
-        <td>{{ c.portador }} </td>
-        <td>{{ c.telefono }} </td>
-        <td>{{ c.importe }}  </td>
-        <td class="text-right" style="width: 80px;">
-          <a class="text-primary mr-2" (click)="edit(c)"><i class="fa fa-pencil-alt"></i></a>
-          <a class="text-danger mr-2" (click)="del(c)"><i class="fa fa-times"></i></a>
+        <td class="text-center">{{ c.banco }}    </td>
+        <td class="text-center">{{ c.fecha | date:'dd/MM/yyyy' }}    </td>
+        <td class="text-right">{{ c.numero }}   </td>
+        <td class="text-center">{{ c.portador }} </td>
+        <td class="text-right">{{ c.telefono }} </td>
+        <td class="text-right">{{ c.importe }}  </td>
+        <td class="text-right" style="width: 50px;">
+          <div style="width: 50px;">
+            <a class="text-primary mr-2" (click)="edit(c)"><i class="fa fa-pencil-alt"></i></a>
+            <a class="text-danger mr-2" (click)="del(c)"><i class="fa fa-times"></i></a>
+          </div>
         </td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <th colspan="7" class="text-right">$ {{ totalEfectivo() | number }}</th>
-      </tr> 
+        <th colspan="6" class="text-right">$ {{ totalEfectivo() | number }}</th>
+        <th style="width: 50px;"></th>
+      </tr>
     </tfoot>
   </table>
 
-  <div class="row">
+  <div class="row" *ngIf="cierre">
     <div class="col text-right mt-2">
       <a class="btn btn-sm btn-success"  [routerLink]="['/arqueo', cierre.period]">Siguiente</a>
     </div>
@@ -61,51 +65,51 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form [formGroup]="formCheques" (ngSubmit)="onSubmit()">
       <div class="modal-body">
-        <form>
+
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Banco</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control form-control-sm" [(ngModel)]="cheque.banco" [ngModelOptions]="{standalone: true}" onClick="this.select();"> 
+              <input type="text" class="form-control form-control-sm" formControlName="banco">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Numero</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control form-control-sm text-right" [(ngModel)]="cheque.numero" [ngModelOptions]="{standalone: true}" onClick="this.select();"> 
+              <input type="number" class="form-control form-control-sm text-right" formControlName="numero">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Fecha</label>
             <div class="col-sm-10">
-              <input type="date" class="form-control form-control-sm text-right" [(ngModel)]="cheque.fecha" [ngModelOptions]="{standalone: true}" onClick="this.select();"> 
+              <input type="date" class="form-control form-control-sm text-right" formControlName="fecha">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label" >Importe</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control form-control-sm text-right" [(ngModel)]="cheque.importe" [ngModelOptions]="{standalone: true}" onClick="this.select();"> 
+              <input type="number" class="form-control form-control-sm text-right" formControlName="importe">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Portador</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control form-control-sm" [(ngModel)]="cheque.portador" [ngModelOptions]="{standalone: true}" onClick="this.select();"> 
+              <input type="text" class="form-control form-control-sm" formControlName="portador">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Telefono</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control form-control-sm text-right" [(ngModel)]="cheque.telefono" [ngModelOptions]="{standalone: true}" onClick="this.select();"> 
+              <input type="text" class="form-control form-control-sm text-right" formControlName="telefono">
             </div>
           </div>
-          
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="submit()">Aceptar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="formCheques.invalid">Aceptar</button>
       </div>
+      </form>
     </div>
   </div>
 </div>

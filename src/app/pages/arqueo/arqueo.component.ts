@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TurnoService } from '../../services/turno.service';
 import Swal from 'sweetalert2';
 import { LoaderService } from 'src/app/services/loader.service';
+import { ComprobantesService } from 'src/app/services/comprobantes.service';
 
 @Component({
   selector: 'app-arqueo',
@@ -26,30 +27,39 @@ export class ArqueoComponent implements OnInit {
 
   cheques = 0;
   tarjetas = 0;
+  promos = 0;
   tickets = 0;
   otros_texto = '';
   otros_valor = 0;
 
-  constructor(public _turno:TurnoService, 
+  constructor(public _turno:TurnoService,
               public router:Router,
               public loader:LoaderService,
-              public route:ActivatedRoute) 
+              public route:ActivatedRoute,
+              public _comp:ComprobantesService)
   {
       this.loader.isLoading.subscribe(v => this.loading = v);
       this._turno.obs_cierre.subscribe(cierre => this.cierre = cierre);
   }
 
   ngOnInit() {
-    
+
     let period = this.route.snapshot.paramMap.get('period');
     this._turno.getCierre(period).subscribe(() => {
       if(!this.cierre) {
         return this.router.navigate(['/']);
       }
-      
+
+      this._comp.getComprobantes(true).then((resp:any) => {
+        let objTarjetas = resp.totales_tipos_comp.find(t => t.tipo === "Tarjetas");
+        if(objTarjetas) {
+          this.tarjetas = objTarjetas.total;
+        }
+      });
+
 
       this._turno.getArqueo(this.cierre.id).subscribe(resp => this.filldata(resp));
-      
+
       // No permite modificacion
       if(this.cierre.status != '0' && typeof this.cierre.id !== "undefined") {
         this.enabled = false;
@@ -65,11 +75,12 @@ export class ArqueoComponent implements OnInit {
       b.cantidad = data['v' + b.valor] * 1 || 0;
     });
 
+    this.promos = data['promos'] * 1 || 0;
     this.cheques = data['cheques'] * 1 || 0;
     this.tarjetas = data['tarjetas'] * 1 || 0;
     this.tickets = data['tickets'] * 1 || 0;
     this.otros_texto = data['otros_texto'] || '';
-    this.otros_valor = data['otros_valor'] * 1 || 0; 
+    this.otros_valor = data['otros_valor'] * 1 || 0;
   }
 
   totalEfectivo() {
@@ -81,7 +92,7 @@ export class ArqueoComponent implements OnInit {
   }
 
   totalOtros() {
-    return parseFloat((+this.cheques + +this.otros_valor + +this.tarjetas + +this.tickets).toFixed(2));
+    return parseFloat((+this.cheques + +this.otros_valor + +this.tarjetas + +this.tickets + +this.promos).toFixed(2));
   }
 
   totalRendido() {
@@ -89,7 +100,7 @@ export class ArqueoComponent implements OnInit {
   }
 
   onSubmit() {
-    
+
     // Pasamos a la otra pantalla en caso que ya fue guardada la cantidad de plata
     if(this.enabled === false) {
       return this.router.navigate(['articulos', this.cierre.period ]);
@@ -97,8 +108,9 @@ export class ArqueoComponent implements OnInit {
 
     // No se permite pasar una caja en cero
     if(this.totalEfectivo() === 0) return;
-    
-    let arqueo = { 
+
+    let arqueo = {
+      promos:this.promos,
       cheques:this.cheques,
       tarjetas:this.tarjetas,
       tickets:this.tickets,
@@ -108,7 +120,7 @@ export class ArqueoComponent implements OnInit {
     }
 
     this.billetes.forEach(b => arqueo[b.valor] = b.cantidad);
-    
+
 
 
     Swal.fire({
@@ -124,12 +136,12 @@ export class ArqueoComponent implements OnInit {
         this._turno.saveArqueo(arqueo).subscribe((resp:any) => {
           if(resp.ok == 'true') {
             this.router.navigate(['articulos', this.cierre.period ]);
-          } 
+          }
         });
       }
     });
 
- 
+
   }
 
 }

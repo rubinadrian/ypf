@@ -38,8 +38,8 @@ export class ComprobantesComponent implements OnInit {
   aValoresRendido = [];
   aKeysRendido = [];
 
-  constructor(public _turno:TurnoService, 
-    public router:Router, 
+  constructor(public _turno:TurnoService,
+    public router:Router,
     public route:ActivatedRoute,
     public loader:LoaderService,
     public _comp:ComprobantesService) {
@@ -47,7 +47,7 @@ export class ComprobantesComponent implements OnInit {
         this._turno.obs_cierre.subscribe(cierre => { this.cierre = cierre;
           if(cierre) {
             this.observaciones = cierre.Observaciones;
-          } 
+          }
         });
     }
 
@@ -65,13 +65,13 @@ export class ComprobantesComponent implements OnInit {
     let period = this.route.snapshot.paramMap.get('period');
     this._turno.getCierre(period).subscribe(() => {
 
-      if(this.cierre.status != '1000') { 
+      if(this.cierre.status != '1000') {
         return this.router.navigate(['/']);
       }
 
       this._turno.getTarjetas().subscribe((resp:any) => this.tarjetas = resp);
- 
-      this._comp.getComprobantes().then((resp:any) => {
+
+      this._comp.getComprobantes(false).then((resp:any) => {
         this.comprobantes = resp.comprobantes;
         this.totales_tarjetas = resp.totales_tarjetas;
         this.totales_tipos_comp = resp.totales_tipos_comp;
@@ -94,7 +94,7 @@ export class ComprobantesComponent implements OnInit {
 
   calcRendido(resp:Array<any>){
     this.rendido.efectivo = 0;
-    
+
     for(let x in resp) {
       if(!isNaN(parseInt(x.slice(1)))) {
         this.rendido.efectivo += resp[x] * parseInt(x.slice(1));
@@ -110,10 +110,10 @@ export class ComprobantesComponent implements OnInit {
     this.rendido.total = +this.rendido.efectivo
                           +resp['tickets']      + resp['cheques']
                           +resp['tarjetas']     + resp['otros_valor'];
-    
+
     this.aValoresRendido = Object.values(this.rendido);
     this.aKeysRendido = Object.keys(this.rendido);
-    
+
   }
 
   saveObs() {

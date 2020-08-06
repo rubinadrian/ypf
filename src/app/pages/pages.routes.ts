@@ -10,9 +10,11 @@ import { ModificacionesComponent } from '../pages/modificaciones/modificaciones.
 import { PagesComponent } from '../pages/pages.component';
 import { TarjetasComponent } from '../pages/tarjetas/tarjetas.component';
 import { ChequesComponent } from './cheques/cheques.component';
+import { PromosComponent } from './promos/promos.component';
+import { PlayaComponent } from './playa/playa.component';
 
 const routes: Routes = [
-  { 
+  {
     path: '',
     component: PagesComponent,
     children: [
@@ -20,6 +22,10 @@ const routes: Routes = [
       { path: 'turno', component: TurnoComponent },
       { path: 'arqueo/:period', component: ArqueoComponent },
       { path: 'cheques/:period', component: ChequesComponent },
+      { path: 'playa', component: PlayaComponent },
+      { path: 'cheques', component: ChequesComponent },
+      { path: 'promos/:period', component: PromosComponent },
+      { path: 'promos', component: PromosComponent },
       { path: 'tarjetas/:period', component: TarjetasComponent },
       { path: 'articulos/:period', component: ArticulosComponent },
       { path: 'aforadores/:period', component: AforadoresComponent },

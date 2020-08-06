@@ -1,0 +1,35 @@
+@media only screen and (max-width: 800px) {
+  .cont_playa {
+    flex-direction: column !important;
+  }
+}
+
+.cont_componets {
+  margin-bottom: 60px;
+}
+
+.cont_playa {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0  auto;
+}
+
+
+#imagen_ypf {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 35px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 600;
+  text-shadow: 2px 2px 20px #003b7c;
+  background: rgba(0,155,205,1);
+  background: radial-gradient(circle, rgba(0,155,205,1) 0%, #003b7c 57%, rgba(2,0,36,1) 110%);
+  box-shadow: inset 0px 0px 10px #000;
+  width: 100%;
+  min-height: 150px;
+  max-height: 600px;
+}

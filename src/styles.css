@@ -23,8 +23,8 @@ table.ypf td input {
 
 table tfoot th {
     text-align: right;
-    background-color: #666;
-    color:white;
+    background-color: #f5f5f5;
+    color: #353535;
 }
 
 
@@ -40,7 +40,7 @@ table.ypf tr:hover {
 
 table.ypf td:hover {
     cursor: pointer;
-} 
+}
 
 table.ypf td span{
     padding: 5px;
@@ -55,11 +55,11 @@ table.ypf input:read-only {
 }
 
 table.ypf input:hover
-table.ypf input:active, 
-table.ypf input:focus, 
+table.ypf input:active,
+table.ypf input:focus,
 table.ypf textarea:active,
 table.ypf textarea:hover,
-table.ypf textarea:focus, 
+table.ypf textarea:focus,
 table.ypf button:focus,
 table.ypf button:active,
 table.ypf button:hover
@@ -127,4 +127,11 @@ table.table-comprobantes tbody tr td {
     text-align: right;
     text-indent: 20px;
     direction:rtl;
+}
+
+
+.btn-primary.disabled, .btn-primary:disabled {
+  background-color: #5a80aa;
+  border-color: #5a80aa;
+  cursor: not-allowed;
 }

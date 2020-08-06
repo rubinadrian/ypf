@@ -16,6 +16,8 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { PagesRoutesModule } from './pages.routes';
 import { ChequesComponent } from './cheques/cheques.component';
+import { PromosComponent } from './promos/promos.component';
+import { PlayaComponent } from './playa/playa.component';
 
 
 
@@ -30,6 +32,8 @@ import { ChequesComponent } from './cheques/cheques.component';
     ModificacionesComponent,
     TarjetasComponent,
     ChequesComponent,
+    PromosComponent,
+    PlayaComponent
   ],
   imports: [
     SharedModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/services/loader.service';
 import { TurnoService } from 'src/app/services/turno.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 declare var $;
 
@@ -11,48 +12,65 @@ declare var $;
   styleUrls: ['./cheques.component.css']
 })
 export class ChequesComponent implements OnInit {
-  cheque = new Cheque();
+  formCheques:FormGroup;
   cheques:Cheque[] = [];
   cierre = null;
   enabled = false;
   loading:boolean;
   arqueo_id = null;
 
-  constructor(public _turno:TurnoService, 
+  constructor(public _turno:TurnoService,
     public router:Router,
     public loader:LoaderService,
-    public route:ActivatedRoute) 
+    public route:ActivatedRoute,
+    private _fb:FormBuilder)
   {
   this.loader.isLoading.subscribe(v => this.loading = v);
   this._turno.obs_cierre.subscribe(cierre => this.cierre = cierre);
   }
 
   ngOnInit() {
-    
-    let period = this.route.snapshot.paramMap.get('period');
-    this._turno.getCierre(period).subscribe(() => {
-      if(!this.cierre) {
-        return this.router.navigate(['/']);
-      }
 
-      this._turno.getArqueo(this.cierre.id).subscribe((arqueo:any) => {
-        this.arqueo_id = arqueo.id;
-        this._turno.getCheques(this.arqueo_id).subscribe((cheques:any) => this.cheques = cheques);
-      });
-
-      // No permite modificacion
-      if(this.cierre.status != '0' && typeof this.cierre.id !== "undefined") {
-        this.enabled = false;
-      } else {
-        this.enabled = true;
-      }
+    this.formCheques = this._fb.group({
+      banco: ['', [Validators.maxLength(100)]],
+      numero:   ['', [Validators.required, Validators.maxLength(14), Validators.min(0), Validators.max(99999999999.99)]],
+      fecha: [''],
+      importe:   ['', [Validators.required, Validators.maxLength(14), Validators.min(0), Validators.max(99999999999.99)]],
+      portador: ['', [Validators.maxLength(100)]],
+      telefono: ['', [Validators.maxLength(100)]],
     });
+
+    let period = this.route.snapshot.paramMap.get('period');
+    if(period) {
+      this._turno.getCierre(period).subscribe(() => {
+        if(!this.cierre) {
+          return this.router.navigate(['/']);
+        }
+
+        this._turno.getArqueo(this.cierre.id).subscribe((arqueo:any) => {
+          this.arqueo_id = arqueo.id;
+          this._turno.getCheques(this.arqueo_id).subscribe((cheques:any) => this.cheques = cheques);
+        });
+
+        // No permite modificacion
+        if(this.cierre.status != '0' && typeof this.cierre.id !== "undefined") {
+          this.enabled = false;
+        } else {
+          this.enabled = true;
+        }
+      });
+    } else {
+      // Sin periodo
+      this.arqueo_id = 0;
+      this._turno.getCheques(this.arqueo_id).subscribe((cheques:any) => this.cheques = cheques);
+    }
+
   }
 
 
-  submit() {
-    let cheque = this.cheque;
-    this.cheque = new Cheque(); // clean modal
+  onSubmit() {
+    let cheque = this.formCheques.value;
+    this.formCheques.reset();
     $('#ModalFormCheque').modal('toggle');
     cheque.arqueo_id = this.arqueo_id;
     this._turno.saveCheque(cheque).subscribe(resp => {
@@ -62,7 +80,7 @@ export class ChequesComponent implements OnInit {
 
   edit(cheque) {
     cheque.arqueo_id = this.arqueo_id;
-    this.cheque.setData(cheque);
+    this.formCheques.patchValue(cheque);
     $('#ModalFormCheque').modal('toggle');
   }
 

@@ -36,7 +36,6 @@
           <tr>
             <th scope="col">Descripcion</th>
             <th scope="col">Valores</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -50,28 +49,33 @@
           </tr>
           <tr>
             <td>Tarjetas</td>
-            <td><input [disabled]="!enabled" type="number" class="form-control form-control-sm cantidad" [(ngModel)]="tarjetas"
-                [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
-                <td></td>
+            <td class="text-right" style="padding-right: 27px;font-size: 14px;">
+              <!-- <input [disabled]="!enabled" type="number" class="form-control form-control-sm cantidad" [(ngModel)]="tarjetas"
+                [ngModelOptions]="{standalone: true}" onClick="this.select();"> -->
+                {{ tarjetas }}
+            </td>
+          </tr>
+          <tr>
+            <td>Promos: </td>
+            <td class="text-right" style="padding-right: 27px;font-size: 14px;">
+                {{ promos }}
+            </td>
           </tr>
           <tr>
             <td>Tickets</td>
             <td><input [disabled]="!enabled" type="number" class="form-control form-control-sm cantidad" [(ngModel)]="tickets"
                 [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
-                <td></td>
           </tr>
           <tr>
             <td><input [disabled]="!enabled" type="text" class="form-control form-control-sm cantidad" [(ngModel)]="otros_texto"
                 [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
             <td><input [disabled]="!enabled" type="number" class="form-control form-control-sm cantidad" [(ngModel)]="otros_valor"
                 [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
-                <td></td>
           </tr>
         </tbody>
         <tfoot>
           <tr class="table-dark">
             <th colspan="2" class="text-right">$ {{ totalOtros()| number:'1.2-2' }}</th>
-            <th></th>
           </tr>
         </tfoot>
       </table>

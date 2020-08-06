@@ -20,8 +20,8 @@ export class TarjetasComponent implements OnInit {
   totales_tarjetas = [];
   totales_tipos_comp = [];
 
-  constructor(public _turno:TurnoService, 
-    public router:Router, 
+  constructor(public _turno:TurnoService,
+    public router:Router,
     public route:ActivatedRoute,
     public loader:LoaderService,
     public _comp:ComprobantesService) {
@@ -30,7 +30,7 @@ export class TarjetasComponent implements OnInit {
   }
 
   onSubmit() {
-    this.router.navigate(['cheques', this.cierre.period]);
+    this.router.navigate(['promos', this.cierre.period]);
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class TarjetasComponent implements OnInit {
     let period = this.route.snapshot.paramMap.get('period');
     this._turno.getCierre(period).subscribe(() => {
 
-      this._comp.getComprobantes().then((resp:any) => {
+      this._comp.getComprobantes(true).then((resp:any) => {
         if(resp.comprobantes.length == 0 ) {
           Swal.fire({
             title: 'Usuario incorrecto',
@@ -53,7 +53,7 @@ export class TarjetasComponent implements OnInit {
         this.totales_tarjetas = resp.totales_tarjetas;
         this.totales_tipos_comp = resp.totales_tipos_comp;
       });
-    
+
     });
 
   }

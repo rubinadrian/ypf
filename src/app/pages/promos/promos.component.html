@@ -1,0 +1,83 @@
+<p class="text-center" *ngIf="loading">Loading...</p>
+<div class="container" *ngIf="!loading" style="min-width: 400px; width: 100%; max-width: 800px;">
+<div class="row">
+  <div class="col-12">
+    <div class="text-right p-2">
+      <button class="btn btn-sm btn-outline-warning" style="min-width: 100px;" (click)="showModal()"><i class="fa fa-plus"></i> Promo</button>
+    </div>
+  </div>
+</div>
+<table class="table ypf">
+    <thead>
+      <tr>
+        <th scope="col" class="text-right">Ticket</th>
+        <th scope="col" class="text-right">Importe</th>
+        <th style="width: 50px;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of promos">
+        <td class="text-right">{{ p.ticket }} </td>
+        <td class="text-right">{{ p.importe }}  </td>
+        <td class="text-right" style="width: 50px;">
+          <div style="width: 50px;">
+            <a class="text-primary mr-2" (click)="edit(p)"><i class="fa fa-pencil-alt"></i></a>
+            <a class="text-danger mr-2" (click)="del(p)"><i class="fa fa-times"></i></a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="2" class="text-right">$ {{ totalEfectivo() | number }}</th>
+        <th style="width: 50px;"></th>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="row" *ngIf="cierre">
+    <div class="col text-right mt-2">
+      <a class="btn btn-sm btn-success"  [routerLink]="['/cheques', cierre.period]">Siguiente</a>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="ModalFormPromo" tabindex="-1" role="dialog" aria-labelledby="ModalFormPromoLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="formPromos" (ngSubmit)="onSubmit()">
+      <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Ticket</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control form-control-sm text-right" formControlName="ticket" id="numero_ticket">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" >Importe</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control form-control-sm text-right" formControlName="importe">
+            </div>
+          </div>
+          <input type="hidden" formControlName="id">
+          <input type="hidden" formControlName="arqueo_id">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="formPromos.invalid">Aceptar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

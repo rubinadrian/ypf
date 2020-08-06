@@ -22,6 +22,9 @@
           <a class="nav-link" [routerLink]="['/tarjetas', cierre.period]">Tarjetas</a>
         </li>
         <li class="nav-item" *ngIf="cerrada || (cierre && +cierre.status >= 0)">
+          <a class="nav-link" [routerLink]="['/promos', cierre.period]">Promos</a>
+        </li>
+        <li class="nav-item" *ngIf="cerrada || (cierre && +cierre.status >= 0)">
           <a class="nav-link" [routerLink]="['/cheques', cierre.period]">Cheques</a>
         </li>
         <li class="nav-item" *ngIf="cerrada || (cierre && +cierre.status >= 1)">

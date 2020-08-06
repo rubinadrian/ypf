@@ -20,7 +20,7 @@ export class TurnoService {
   closeTurno(period:string|number) {
     return this.http.get(this.url + 'cierre/close/' +  period);
   }
-    
+
   saveCierre(data) {
     return this.http.post(this.url + 'cierre', data).pipe(map(this.middlewareCierre));
   }
@@ -161,7 +161,7 @@ export class TurnoService {
   getArtCombBit() {
     return this.http.get(this.url + 'articulo/combustibles').pipe(first());
   }
-  
+
   /** Comprobantes sin cuerpo */
   getComprobantes(cierre_id) {
     return this.http.get(this.url + 'comprobantes/' + cierre_id).pipe(first());
@@ -206,6 +206,18 @@ export class TurnoService {
 
   delCheque(cheque_id) {
     return this.http.delete(this.url + 'cheque/' + cheque_id);
+  }
+
+  savePromo(data) {
+    return this.http.post(this.url + 'promo', data);
+  }
+
+  getPromos(arqueo_id) {
+    return this.http.get(this.url + 'promo/' + arqueo_id);
+  }
+
+  delPromo(promo_id) {
+    return this.http.delete(this.url + 'promo/' + promo_id);
   }
 
 }
