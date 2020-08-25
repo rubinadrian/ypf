@@ -50,7 +50,7 @@ export class ArqueoComponent implements OnInit {
         return this.router.navigate(['/']);
       }
 
-      this._comp.getComprobantes(true).then((resp:any) => {
+      this._comp.getComprobantes(false).then((resp:any) => {
         let objTarjetas = resp.totales_tipos_comp.find(t => t.tipo === "Tarjetas");
         if(objTarjetas) {
           this.tarjetas = objTarjetas.total;

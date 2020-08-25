@@ -3,11 +3,12 @@
 <div class="row">
   <div class="col-12">
     <div class="text-right p-2">
-      <button class="btn btn-sm btn-outline-success right" style="min-width: 100px;" data-toggle="modal" data-target="#ModalFormCheque">
+      <button class="btn btn-sm btn-outline-success right" style="min-width: 100px;" (click)="showModal()">
         <i class="fa fa-plus" aria-hidden="true"></i> Cheque</button>
     </div>
   </div>
 </div>
+<h5>Cheques</h5>
 <table class="table ypf">
     <thead>
       <tr>
@@ -71,9 +72,22 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Banco</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control form-control-sm" formControlName="banco">
+              <select class="form-control form-control-sm" formControlName="banco">
+                <option selected value="">-- Seleccione un banco</option>
+                <option *ngFor="let b of bancos">{{ b }}</option>
+                <option selected value="__OTROS__">Otros</option>
+              </select>
             </div>
           </div>
+
+          <div class="form-group row" *ngIf="formCheques.controls.banco.value==='__OTROS__'">
+            <label class="col-sm-2 col-form-label">Banco</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control form-control-sm text-right" [(ngModel)]="nombre_otro_banco" [ngModelOptions]="{standalone: true}">
+            </div>
+          </div>
+
+
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Numero</label>
             <div class="col-sm-10">

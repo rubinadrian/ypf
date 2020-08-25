@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 declare var $;
 
+
 @Component({
   selector: 'app-promos',
   templateUrl: './promos.component.html',
@@ -19,6 +20,7 @@ export class PromosComponent implements OnInit {
   enabled = false;
   loading:boolean;
   arqueo_id = null;
+
 
   constructor(public _turno:TurnoService,
     public router:Router,

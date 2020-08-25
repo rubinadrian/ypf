@@ -18,6 +18,9 @@ export class ChequesComponent implements OnInit {
   enabled = false;
   loading:boolean;
   arqueo_id = null;
+  nombre_otro_banco = '';
+  bancos = ['Bco. Santander Rio', 'Bco. Nacion Argentina', 'Bco. Cordoba', 'Bco. Macro', 'Bco. Supervielle', 'Bco. Hipotecario'
+  , 'Bco. Patagonia', 'Bco. Credicoop', 'Bco. Comafi'];
 
   constructor(public _turno:TurnoService,
     public router:Router,
@@ -25,8 +28,9 @@ export class ChequesComponent implements OnInit {
     public route:ActivatedRoute,
     private _fb:FormBuilder)
   {
-  this.loader.isLoading.subscribe(v => this.loading = v);
-  this._turno.obs_cierre.subscribe(cierre => this.cierre = cierre);
+    this.loader.isLoading.subscribe(v => this.loading = v);
+    this._turno.obs_cierre.subscribe(cierre => this.cierre = cierre);
+    this.bancos.sort();
   }
 
   ngOnInit() {
@@ -70,13 +74,23 @@ export class ChequesComponent implements OnInit {
 
   onSubmit() {
     let cheque = this.formCheques.value;
+    if(cheque.banco == '__OTROS__') {
+      cheque.banco = this.nombre_otro_banco || 'otros';
+    }
     this.formCheques.reset();
+    this.nombre_otro_banco = '';
     $('#ModalFormCheque').modal('toggle');
     cheque.arqueo_id = this.arqueo_id;
     this._turno.saveCheque(cheque).subscribe(resp => {
       this._turno.getCheques(this.arqueo_id).subscribe((cheques:any) => this.cheques = cheques);
     });
   }
+
+  showModal() {
+    this.formCheques.reset();
+    $('#ModalFormCheque').modal('show');
+  }
+
 
   edit(cheque) {
     cheque.arqueo_id = this.arqueo_id;

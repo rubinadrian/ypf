@@ -1,13 +1,32 @@
-
-<div class="cont_playa">
-
-  <div class="cont_componets">
+<div style="min-height: 600px; width: 100%; position: relative;">
+  <div style="display: flex; flex-direction: row; justify-content: center;">
     <app-cheques></app-cheques>
     <app-promos></app-promos>
   </div>
 
-  <div id="imagen_ypf" *ngIf="!loading">
-    <span>YPF | J.Posse</span>
+  <div class="cont_playa">
+    <div style="display: flex; flex-direction: row; justify-content: left;">
+      <form class="form-inline">
+        <button
+          class="btn btn-sm btn-outline-success m-1"
+          style="min-width: 100px;"
+          (click)="chequesComponent.showModal()"
+        >
+          <i class="fa fa-plus" aria-hidden="true"></i> Cheque
+        </button>
+        <button
+          class="btn btn-sm btn-outline-warning m-1"
+          style="min-width: 100px;"
+          (click)="promosComponent.showModal()"
+        >
+          <i class="fa fa-plus" aria-hidden="true"></i> Promo
+        </button>
+      </form>
+    </div>
   </div>
 
+
+  <div id="imagen_ypf" *ngIf="!loading" style="position: absolute; bottom: 0px;">
+    <span>YPF | J.Posse</span>
+  </div>
 </div>
