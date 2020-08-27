@@ -136,6 +136,10 @@ export class TurnoService {
     return this.http.get(this.url + 'articulo').pipe(first());
   }
 
+  getArticulosRelacionados() {
+    return this.http.get(this.url + 'articulo/relacion_multiple').pipe(first());
+  }
+
   getPlayeros() {
     return this.http.get(this.url + 'playero').pipe(first());
   }

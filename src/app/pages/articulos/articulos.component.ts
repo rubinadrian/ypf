@@ -14,7 +14,7 @@ export class ArticulosComponent implements OnInit {
   loading:boolean;
   cierre = null;
 
-  constructor(public _turno: TurnoService, 
+  constructor(public _turno: TurnoService,
     public router: Router,
     public route:ActivatedRoute,
     public loader:LoaderService) {
@@ -35,6 +35,8 @@ export class ArticulosComponent implements OnInit {
           this._turno.getControlArticulos(this.cierre.id).subscribe((articulos: Array<any>) => {
           this.articulos = articulos;
         });
+
+      // Si ya entro alguna vez, se traen los articulos desde la tabla control.
       } else if(+this.cierre.status >= 2) {
         this.enabled = true;
         this._turno.getControlArticulos(this.cierre.id).subscribe((articulos: Array<any>) => {
@@ -48,8 +50,10 @@ export class ArticulosComponent implements OnInit {
               });
             });
           });
-          
+
         });
+
+      // Primera vez que entra.
       } else if(+this.cierre.status == 1){
         this.enabled = true;
         this._turno.getArticulos().subscribe((articulos: Array<any>) => {
