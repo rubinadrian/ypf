@@ -51,7 +51,6 @@
           <th>Denominacion</th>
           <th style="text-align: right;">Despachados</th>
           <th style="text-align: right;">Facturado</th>
-          <!-- <th style="text-align: right;">YER</th> -->
           <th style="text-align: right;">Pendiente</th>
         </tr>
       </thead>
@@ -62,15 +61,13 @@
           <td>{{ art.denominacion }}</td>
           <td style="text-align: right;">{{ art.cio }}</td>
           <td style="text-align: right;">{{ art.facturado }}</td>
-          <!-- <td style="text-align: right;">{{ art.yer }}</td> -->
-          <td style="text-align: right;">{{ art.cantidad}}</td>
+           <td style="text-align: right;">{{ art.cantidad}}</td>
         </tr>
         <tr *ngFor="let art of combAfoPendientes">
           <td>{{ art.articulo}}</td>
           <td>{{ art.denominacion}}</td>
           <td style="text-align: right;">{{ art.despachados }}</td>
           <td style="text-align: right;">{{ art.facturado }}</td>
-          <!-- <td></td> -->
           <td style="text-align: right;">{{ art.cantidad}}</td>
         </tr>
       </tbody>
@@ -123,7 +120,6 @@
           <th>Articulo</th>
           <th>Denominacion</th>
           <th style="text-align: right;">Incial</th>
-          <!-- <th style="text-align: right;">Yer</th> -->
           <th style="text-align: right;">Repo</th>
           <th style="text-align: right;">Final</th>
           <th style="text-align: right;">Facturado</th>
@@ -136,7 +132,6 @@
           <td>{{ art.articulo}}</td>
           <td>{{ art.denominacion}}</td>
           <td style="text-align: right;">{{ art.inicial}}</td>
-          <!-- <td style="text-align: right;">{{ art.yer}}</td> -->
           <td style="text-align: right;">{{ art.reposicion}}</td>
           <td style="text-align: right;">{{ art.final}}</td>
           <td style="text-align: right;">{{ art.facturado }}</td>

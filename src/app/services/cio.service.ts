@@ -15,7 +15,6 @@ export class CioService {
   // Los AsyncSubject retornan el ultimo valor de next cuando se completan.
   // Anterior a eso no devuelven nada.
   protected subject_cierre = new AsyncSubject();
-  protected subject_yer = new AsyncSubject();
 
   constructor(private http: HttpClient) { }
 
@@ -92,7 +91,7 @@ export class CioService {
     let idx = tables.findIndex(table => {
       return table.title === 'Despachos';
     });
-    
+
     let ypfenruta = [];
     tables[idx].table.forEach(reg => {
       ypfenruta[reg.Producto] = ypfenruta[reg.Producto] || 0;
@@ -174,43 +173,10 @@ export class CioService {
             });
         }
       });
-      
+
     }
 
     return this.subject_cierre;
-  }
-
-  getYERcio(period):Observable<any>  {
-
-    /** Si esta en el local storage */
-    if(window.localStorage.getItem('yer_' + period)) {
-      let local_yer = JSON.parse(window.localStorage.getItem('yer_' + period));
-      this.subject_yer.next(local_yer.ypfenruta);
-      this.subject_yer.complete();
-    } else {
-
-      this.http.get(this.url + 'cierrescio/yer/' + period).pipe(first())
-      .subscribe(resp => {
-
-        if(resp) {
-          let yer = { ypfenruta: resp };
-          window.localStorage.setItem('yer_' + period, JSON.stringify(yer));
-          this.subject_yer.next(resp);
-          this.subject_yer.complete();
-        }  else {
-            /** Si no esta en el localStorge hacemos la peticion */
-            this.getReporteYPFenRuta(period).subscribe(ypfenruta => {
-              let yer = { ypfenruta };
-              window.localStorage.setItem('yer_' + period, JSON.stringify(yer));
-              this.subject_yer.next(ypfenruta);
-              this.subject_yer.complete();
-            });
-        }
-      })
-      
-    }
-    
-    return this.subject_yer;
   }
 
   private getReporteCierre(period): Observable<any> {
@@ -221,7 +187,7 @@ export class CioService {
       }),
       responseType: 'text'
     }
-    
+
     return this.http.get(this.url + `cio/cierre/${period}`, requestOptions)
       .pipe(map(x => {
         let tables = this.parseReporteToTables(x);
@@ -237,7 +203,7 @@ export class CioService {
       }),
       responseType: 'text'
     }
-    
+
     return this.http.get(this.url + `cio/ypfenruta/${period}`, requestOptions)
       .pipe(map(x => {
         let tables = this.parseReporteToTables(x);
@@ -248,10 +214,6 @@ export class CioService {
 
   public saveCierreCio(data) {
     return this.http.post(this.url + 'cierrescio/cierre', data);
-  }
-
-  public saveYERCio(data) {
-    return this.http.post(this.url + 'cierrescio/yer', data);
   }
 
 }

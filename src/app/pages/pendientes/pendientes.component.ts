@@ -90,34 +90,30 @@ export class PendientesComponent implements OnInit {
     }
   }
 
-
-
   getAllPendientes() {
 
     forkJoin(
       this._cio.getCierreCio(this.cierre.period),
-      //this._cio.getYERcio(this.cierre.period),
       this._turno.getControlArticulos(this.cierre.id),
       this._turno.getControlAforadores(this.cierre.id),
       this._turno.getFacturados(this.cierre.id)
     )
     .subscribe(([
         cio,
-        //volsYPFenRuta,
         articulos,
         aforadores,
         facturados]:any) => {
+          console.log(facturados);
       this.articulos = articulos;
       this.aforadores = aforadores;
       this.facturados = facturados;
       this.facturados_clon = [...facturados];
       this.cio = cio;
-      this.volsYPFenRuta = [];//volsYPFenRuta;
 
       this.cio.period = this.cierre.period;
-      this.volsYPFenRuta.period = this.cierre.period;
+
+      // Gurdamos los datos del Cio, cantidad de combustible despachada.
       this._cio.saveCierreCio(cio).subscribe();
-      this._cio.saveYERCio(this.volsYPFenRuta).subscribe();
 
       if(this.facturados.length == 0) {
         Swal.fire({
@@ -143,16 +139,19 @@ export class PendientesComponent implements OnInit {
   controlTodoFacturado() {
 
     if(this.articulosPendientes.length > 0) {
+      console.log('Articulos Pendientes: ', this.articulosPendientes);
       return this.hayPendientes = true;
     }
 
     let idx = this.combAfoPendientes.findIndex(art => (+art.cantidad > __MARGEN__ || +art.cantidad < -1 * __MARGEN__));
     if(idx !== -1) {
+      console.log('combAfoPendientes Pendientes: ', this.combAfoPendientes);
       return this.hayPendientes = true
     }
 
     idx = this.combCioPendientes.findIndex(art => (+art.cantidad  > __MARGEN__ || +art.cantidad < -1 * __MARGEN__));
     if(idx !== -1) {
+      console.log('combCioPendientes Pendientes: ', this.combAfoPendientes);
       return this.hayPendientes = true
     }
 
@@ -163,11 +162,11 @@ export class PendientesComponent implements OnInit {
   getArticulosPendintes() {
     this.articulosPendientes = [];
     this.articulos.forEach(art => {
-      let vendido = art.inicial + art.reposicion - art.final - art.yer;
+      let vendido = art.inicial + art.reposicion - art.final;
       let idxArtFacturado = this.facturados.findIndex(f => f.articulo == art.codigo);
       let facturado = 0;
       if(idxArtFacturado != -1 ) {
-        this.facturados[idxArtFacturado].cantidad = this.facturados[idxArtFacturado].cantidad - art.yer;
+        this.facturados[idxArtFacturado].cantidad = this.facturados[idxArtFacturado].cantidad;
         facturado = this.facturados[idxArtFacturado].cantidad * 1 || 0;
         this.facturados.splice(idxArtFacturado, 1);
       }
@@ -178,7 +177,6 @@ export class PendientesComponent implements OnInit {
           inicial:  art.inicial,
           reposicion:  art.reposicion,
           final:  art.final,
-          yer: art.yer,
           denominacion: art.denominacion,
           facturado: facturado.toFixed(2),
           cantidad: vendido - facturado
@@ -240,9 +238,9 @@ export class PendientesComponent implements OnInit {
         inicidencia = this.incidencias[idxArtIncidencia].cantidad;
       }
 
-      let enRuta = this.volsYPFenRuta[c.articulo] || 0;
+      // let enRuta = this.volsYPFenRuta[c.articulo] || 0;
 
-      let cantidad_pendiente = this.cio[c.articulo].volumen - facturado - enRuta - inicidencia;
+      let cantidad_pendiente = this.cio[c.articulo].volumen - facturado - inicidencia;
 
       if(facturado != this.cio[c.articulo].volumen) {
         this.combCioPendientes.push({
@@ -250,7 +248,6 @@ export class PendientesComponent implements OnInit {
           denominacion: c.denominacion,
           cio:  this.cio[c.articulo].volumen.toFixed(2),
           facturado: facturado.toFixed(2),
-          yer: enRuta.toFixed(2),
           cantidad: cantidad_pendiente.toFixed(2)
         });
       }

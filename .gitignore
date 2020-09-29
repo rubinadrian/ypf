@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/dist11
 /tmp
 /out-tsc
 /src/assets/icons

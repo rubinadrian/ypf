@@ -59,6 +59,8 @@ export class ComprobantesService {
   private getTotales() {
     let comprobantes = JSON.parse(JSON.stringify(this.comprobantes));
     comprobantes = this.filterBy.transform(comprobantes, 'contado');
+
+    // con [...new Set(Array())] removemos los elementos duplicados del array.
     let nroCajasContado = [...new Set(comprobantes.map(c => c.nrocaja))];
     this.contadosPorCajas = [];
     nroCajasContado.forEach(nrocaja => {

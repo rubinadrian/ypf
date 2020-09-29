@@ -31,6 +31,7 @@ export class ComprobantesComponent implements OnInit {
     tarjetas:0,
     tickets:0,
     cheques:0,
+    promos:0,
     otros:0,
     total:0
   };
@@ -104,12 +105,14 @@ export class ComprobantesComponent implements OnInit {
     this.rendido.tarjetas = resp['tarjetas'];
     this.rendido.tickets = resp['tickets'];
     this.rendido.cheques = resp['cheques'];
+    this.rendido.promos = resp['promos'];
     this.rendido.otros = resp['otros_valor'];
 
 
     this.rendido.total = +this.rendido.efectivo
                           +resp['tickets']      + resp['cheques']
-                          +resp['tarjetas']     + resp['otros_valor'];
+                          +resp['tarjetas']     + resp['otros_valor']
+                          +resp['promos'];
 
     this.aValoresRendido = Object.values(this.rendido);
     this.aKeysRendido = Object.keys(this.rendido);

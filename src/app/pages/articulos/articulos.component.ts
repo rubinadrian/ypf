@@ -41,16 +41,6 @@ export class ArticulosComponent implements OnInit {
         this.enabled = true;
         this._turno.getControlArticulos(this.cierre.id).subscribe((articulos: Array<any>) => {
           this.articulos = articulos;
-          this._turno.getFacturadosYER(this.cierre.id).subscribe((artsYer: Array<any>) => {
-            articulos.forEach(a => {
-              a.yer = 0;
-              a.id = a.articulo_id;
-              artsYer.forEach(y => {
-                if(a.codigo===y.articulo) { a.yer = +y.cantidad;}
-              });
-            });
-          });
-
         });
 
       // Primera vez que entra.
@@ -59,18 +49,12 @@ export class ArticulosComponent implements OnInit {
         this._turno.getArticulos().subscribe((articulos: Array<any>) => {
           // Ordeno los articulos por campo orden
           articulos.sort((a, b) => (a.orden > b.orden) ? 1 : -1);
-          this._turno.getFacturadosYER(this.cierre.id).subscribe((artsYer: Array<any>) => {
-              // Inicializo los valores
-              articulos.forEach(a => {
-                a.reposicion = 0;
-                a.final = a.inicial;
-                a.yer = 0;
-                artsYer.forEach(y => {
-                  if(a.codigo===y.articulo) { a.yer = +y.cantidad;}
-                });
-              });
-              this.articulos = articulos;
+           // Inicializo los valores
+          articulos.forEach(a => {
+            a.reposicion = 0;
+            a.final = a.inicial;
           });
+          this.articulos = articulos;
         });
       }
     });
@@ -104,7 +88,7 @@ export class ArticulosComponent implements OnInit {
   control() {
     let ok = true;
     this.articulos.forEach(a => {
-      if (a.inicial + a.reposicion - a.final - a.yer < 0) {
+      if (a.inicial + a.reposicion - a.final < 0) {
         ok = false;
       }
     })

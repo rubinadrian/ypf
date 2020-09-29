@@ -16,7 +16,6 @@
         <th scope="col">Codigo</th>
         <th scope="col">Denominacion</th>
         <th scope="col">Inicial</th>
-        <th scope="col">YER</th>
         <th scope="col">Repo</th>
         <th scope="col">Final</th>
         <th scope="col">Venta</th>
@@ -27,13 +26,12 @@
         <td>{{ a.codigo }}</td>
         <td>{{ a.denominacion }}</td>
         <td>{{ a.inicial }}</td>
-        <td>{{ a.yer }}</td>
         <td><input [disabled]="!enabled" type="text" class="form-control form-control-sm cantidad" [(ngModel)]="a.reposicion"
             [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
         <td><input [disabled]="!enabled" type="text" class="form-control form-control-sm cantidad" [(ngModel)]="a.final"
             [ngModelOptions]="{standalone: true}" onClick="this.select();"></td>
         <td><input [disabled]="!enabled" type="text" class="form-control form-control-sm"
-            [value]="+a.inicial + +a.reposicion - +a.final -a.yer" tabIndex="-1" readonly></td>
+            [value]="+a.inicial + +a.reposicion - +a.final" tabIndex="-1" readonly></td>
       </tr>
     </tbody>
   </table>

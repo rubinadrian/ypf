@@ -157,11 +157,6 @@ export class TurnoService {
     return this.http.get(this.url + 'facturado/' + cierre_id).pipe(first());
   }
 
-  /** Articulos */
-  getFacturadosYER(cierre_id) {
-    return this.http.get(this.url + 'facturado/yer/' + cierre_id).pipe(first());
-  }
-
   getArtCombBit() {
     return this.http.get(this.url + 'articulo/combustibles').pipe(first());
   }

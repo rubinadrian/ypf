@@ -25,7 +25,7 @@ export class TurnoComponent implements OnInit  {
   cierre = null;
   loading = true;
 
-  constructor(public _cio: CioService, 
+  constructor(public _cio: CioService,
               public router:Router,
               private _turno: TurnoService,
               public loader:LoaderService) {
@@ -36,7 +36,7 @@ export class TurnoComponent implements OnInit  {
 
   ngOnInit(): void {
 
-    
+
     let date = new Date();
     this.year = date.getFullYear();
     this.month = date.getMonth();
@@ -47,11 +47,11 @@ export class TurnoComponent implements OnInit  {
     this._turno.getUsuariosCajas().subscribe((resp:any) => {
       this.turnos = resp;
       this.turnos.sort();
-    });   
+    });
 
     this.getPeriods();
     this._turno.getPlayeros().subscribe((resp:any) => this.playeros=resp);
-    
+
   }
 
   getPeriods() {
@@ -64,7 +64,7 @@ export class TurnoComponent implements OnInit  {
 
   onSubmit() {
     if(!this.turno || !this.period) { return; }
-  
+
     let data = {
       turno:this.turno,
       period:this.period,
@@ -75,7 +75,6 @@ export class TurnoComponent implements OnInit  {
 
     this._turno.saveCierre(data).subscribe((resp:any) => {
         this._cio.getCierreCio(this.cierre.period).subscribe();
-        this._cio.getYERcio(this.cierre.period).subscribe();
         return this.router.navigate(['tarjetas', this.cierre.period]);
     });
   }
