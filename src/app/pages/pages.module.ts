@@ -18,6 +18,8 @@ import { PagesRoutesModule } from './pages.routes';
 import { ChequesComponent } from './cheques/cheques.component';
 import { PromosComponent } from './promos/promos.component';
 import { PlayaComponent } from './playa/playa.component';
+import { MedicionesComponent } from './mediciones/mediciones.component';
+import { DespachosComponent } from './despachos/despachos.component';
 
 
 
@@ -33,7 +35,9 @@ import { PlayaComponent } from './playa/playa.component';
     TarjetasComponent,
     ChequesComponent,
     PromosComponent,
-    PlayaComponent
+    PlayaComponent,
+    MedicionesComponent,
+    DespachosComponent
   ],
   imports: [
     SharedModule,

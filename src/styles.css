@@ -34,7 +34,7 @@ table.ypf td {
     vertical-align : middle;
 }
 
-table.ypf tr:hover {
+table.ypf tr:hover td {
     cursor: pointer;
     background-color: #f1f1f1;
 }

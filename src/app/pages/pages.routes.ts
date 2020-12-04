@@ -12,6 +12,9 @@ import { TarjetasComponent } from '../pages/tarjetas/tarjetas.component';
 import { ChequesComponent } from './cheques/cheques.component';
 import { PromosComponent } from './promos/promos.component';
 import { PlayaComponent } from './playa/playa.component';
+import { DespachosComponent } from './despachos/despachos.component';
+import { TanqueComponent } from '../admin/tanque/tanque.component';
+import { MedicionesComponent } from './mediciones/mediciones.component';
 
 const routes: Routes = [
   {
@@ -24,6 +27,8 @@ const routes: Routes = [
       { path: 'cheques/:period', component: ChequesComponent },
       { path: 'playa', component: PlayaComponent },
       { path: 'cheques', component: ChequesComponent },
+      { path: 'despachos', component: DespachosComponent },
+      { path: 'mediciones', component: MedicionesComponent },
       { path: 'promos/:period', component: PromosComponent },
       { path: 'promos', component: PromosComponent },
       { path: 'tarjetas/:period', component: TarjetasComponent },

@@ -15,8 +15,12 @@ export class AuthService {
   public currentUser: Observable<any>;
 
   constructor(public http:HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(sessionStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+    let user = sessionStorage.getItem('currentUser');
+    if(user) {
+      this.currentUserSubject.next(JSON.parse(user));
+    }
   }
 
   public get currentUserValue() {
@@ -29,16 +33,16 @@ export class AuthService {
         user: resp.user,
         token: resp.access_token
       };
-      
-      localStorage.setItem('currentUser', JSON.stringify(user));
+
+      sessionStorage.setItem('currentUser', JSON.stringify(user));
       this.currentUserSubject.next(user);
       return resp;
     }));
   }
 
   logout() {
-      localStorage.clear();
-      localStorage.removeItem('currentUser');
+      sessionStorage.clear();
+      sessionStorage.removeItem('currentUser');
       this.currentUserSubject.next(null);
   }
 }

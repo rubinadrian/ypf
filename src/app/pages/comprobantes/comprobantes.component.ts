@@ -6,6 +6,8 @@ import { ComprobantesService } from 'src/app/services/comprobantes.service';
 import Swal from 'sweetalert2';
 // import { CioService } from 'src/app/services/cio.service';
 
+declare var $;
+
 @Component({
   selector: 'app-comprobantes',
   templateUrl: './comprobantes.component.html',
@@ -26,6 +28,10 @@ export class ComprobantesComponent implements OnInit {
   filtro;
   playeros = [];
   filtro_text;
+  detalle = {
+    comprobante: { nombre:'', nrocomprobante:0},
+    articulos:[]
+  };
   rendido = {
     efectivo:0,
     tarjetas:0,
@@ -132,6 +138,14 @@ export class ComprobantesComponent implements OnInit {
           type:  'success'
         });
       }
+    });
+  }
+
+  getCuerpo(comprobante) {
+    this._turno.getCuerpoComprobante(comprobante.nrointerno).subscribe((resp:any) => {
+      this.detalle.comprobante = comprobante;
+      this.detalle.articulos = resp;
+      $('#ModalCuerpoFactura').modal('show');
     });
   }
 

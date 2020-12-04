@@ -1,0 +1,27 @@
+th {
+  text-align: center;
+}
+
+select {
+  cursor:pointer;
+}
+
+option:checked {
+  background-color: rgb(40, 144, 204) !important;
+  color: white;
+}
+
+thead {
+  border-top: 5px solid cornflowerblue;
+}
+
+.cont_badges h5 {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.cont_badges {
+  display: flex;
+  align-content: space-between;
+}

@@ -10,14 +10,14 @@ import {
 } from '@angular/common/http';
 import { Observable, EMPTY } from 'rxjs';
 import { LoaderService } from './services/loader.service';
- 
+
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
     private requests: HttpRequest<any>[] = [];
     private requestsCio: HttpRequest<any>[] = [];
- 
+
     constructor(private loaderService: LoaderService) { }
- 
+
     removeRequest(req: HttpRequest<any>) {
         if(req.url.search('index.php/api/cio') != -1) {
             const i = this.requestsCio.indexOf(req);
@@ -29,7 +29,7 @@ export class LoaderInterceptor implements HttpInterceptor {
             this.loaderService.isLoading.next(this.requests.length > 0);
         }
     }
- 
+
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const reqNoCache = req.clone({
@@ -40,20 +40,23 @@ export class LoaderInterceptor implements HttpInterceptor {
         });
 
         if(reqNoCache.url.search('index.php/api/cio') != -1) {
-            
+
             /** Evitar hacer dos veces la misma peticion al cio */
             const i = this.requestsCio.findIndex(r => reqNoCache.url === r.url);
             if(i !== -1) return EMPTY;
-            
-            
+
+
             this.loaderService.isLoadingCio.next(true);
             this.requestsCio.push(reqNoCache);
         } else {
+            // evito que active el loading en esta peticion
+            if(reqNoCache.url.search('index.php/api/comprobante/cuerpo/') == -1) {
+              this.loaderService.isLoading.next(true);
+            }
             this.requests.push(reqNoCache);
-            this.loaderService.isLoading.next(true);
         }
 
-        
+
         return Observable.create(observer => {
             const subscription = next.handle(reqNoCache)
                 .subscribe(
@@ -79,4 +82,3 @@ export class LoaderInterceptor implements HttpInterceptor {
         });
     }
 }
- 

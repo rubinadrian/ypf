@@ -11,8 +11,8 @@ import { ChequesComponent } from '../cheques/cheques.component';
 export class PlayaComponent implements OnInit {
   loading = false;
 
-  @ViewChild(PromosComponent, {static: false}) promosComponent:PromosComponent;
-  @ViewChild(ChequesComponent, {static: false}) chequesComponent:ChequesComponent;
+  @ViewChild(PromosComponent) promosComponent:PromosComponent;
+  @ViewChild(ChequesComponent) chequesComponent:ChequesComponent;
 
 
   constructor(private loader:LoaderService) {

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { map } from 'rxjs/internal/operators/map';
-import { first } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root',
@@ -217,6 +217,51 @@ export class TurnoService {
 
   delPromo(promo_id) {
     return this.http.delete(this.url + 'promo/' + promo_id);
+  }
+
+  saveDespacho(data) {
+    return this.http.post(this.url + 'despacho', data);
+  }
+
+  getDespachos(arqueo_id) {
+    return this.http.get(this.url + 'despacho/' + arqueo_id);
+  }
+
+  getDespachosFromTo(data:{from:string,to:string}) {
+    return this.http.post(this.url + 'despachos', data);
+  }
+
+
+  delDespacho(despacho_id) {
+    return this.http.delete(this.url + 'despacho/' + despacho_id);
+  }
+
+  saveTanque(data) {
+    return this.http.post(this.url + 'tanque', data);
+  }
+
+  getTanques() {
+    return this.http.get(this.url + 'tanque' );
+  }
+
+  delTanque(tanque_id) {
+    return this.http.delete(this.url + 'tanque/' + tanque_id);
+  }
+
+  getCuerpoComprobante(nrointerno) {
+    return this.http.get(this.url + 'comprobante/cuerpo/' + nrointerno);
+  }
+
+  getMediciones(data:{from:string,to:string}) {
+    return this.http.get(this.url + 'medicion/' + data.from + '/' + data.to);
+  }
+
+  saveMedicion(data) {
+    return this.http.post(this.url + 'medicion', data);
+  }
+
+  getEstockCombustibles() {
+    return this.http.get(this.url + 'estock/combustible');
   }
 
 }

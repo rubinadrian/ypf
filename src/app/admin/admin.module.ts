@@ -11,6 +11,8 @@ import { SharedModule } from '../shared/shared.module';
 import { AdminInterceptor } from './admin.interceptor';
 import { CierreComponent } from './cierre/cierre.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { TanqueComponent } from './tanque/tanque.component';
+import { ConsultaDespachosComponent } from './consulta-despachos/consulta-despachos.component';
 
 
 
@@ -18,7 +20,9 @@ import { PipesModule } from '../pipes/pipes.module';
   declarations: [
     ArticulosComponent,
     AforadoresComponent,
-    CierreComponent
+    CierreComponent,
+    TanqueComponent,
+    ConsultaDespachosComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AdminInterceptor, multi: true },

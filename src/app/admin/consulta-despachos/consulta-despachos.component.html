@@ -1,0 +1,85 @@
+<p class="text-center" *ngIf="loading">Loading...</p>
+<div class="container" *ngIf="!loading">
+
+  <div class="row">
+
+    <div class="col-md-8  mb-5">
+
+      <form (ngSubmit)="getDespachos()" [formGroup]="formConsulta" class="form-inline" novalidate>
+        <label class="sr-only">Desde</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <input type="date" formControlName="from" class="form-control form-control-sm" placeholder="desde">
+        </div>
+        <label class="sr-only">Hasta</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <input type="date" formControlName="to" class="form-control form-control-sm" placeholder="hasta">
+        </div>
+        <button type="submit" class="btn btn-sm btn-success mb-2" [disabled]="!formConsulta.valid">Consultar</button>
+      </form>
+
+
+      <div class="alert alert-light" role="alert" *ngIf="despachos.length == 0">
+        No hay despachos cargados.
+      </div>
+      <table class="table ypf" *ngIf="despachos.length != 0">
+        <thead >
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Turno</th>
+            <th scope="col">Periodo</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Cantidad</th>
+            <th style="width: 50px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of despachos" (click)="edit(d, $event)">
+            <td class="text-center" style="white-space: nowrap">{{ d.created_at?.split(' ')[0]|date:'dd/MM/YYYY' }} </td>
+            <td class="text-center" style="white-space: nowrap">{{ d.created_at?.split(' ')[1] }} </td>
+            <td class="text-center" style="white-space: nowrap">{{ d.usuario }} </td>
+            <td class="text-center" style="white-space: nowrap">{{ d.period }} </td>
+            <td class="text-center" style="white-space: nowrap">{{ d.cliente | uppercase }} </td>
+            <td class="text-center">{{ d.producto }} </td>
+            <td class="text-right">{{ d.cantidad }} </td>
+            <td class="text-right" style="width: 50px;">
+              <div style="width: 50px;">
+                <a class="text-danger mr-2" (click)="del(d, $event)"><i
+                    class="fa fa-times"></i></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="text-center" colspan="4">{{productos[0]}}: {{total(0)}} lts.</th>
+            <th class="text-center" colspan="4">{{productos[1]}}: {{total(1)}} lts.</th>
+            <!-- <th></th> -->
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+
+    <div class="col-md-4 mb-5">
+      <div class="card">
+        <img class="card-img-top"
+          src="assets/images/ypf-estacion-servicio-cordoba.jpg" alt="YPF -
+          CoopUnion">
+        <div class="card-body">
+          <h5 class="card-title">Totales</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li *ngFor="let p of productos; index as i" class="list-group-item d-flex justify-content-between align-items-center">
+              {{ p }} <span class="badge badge-primary">{{ total(i) }} lts</span>
+            </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>
